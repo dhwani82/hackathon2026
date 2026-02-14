@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "Dating App MVP",
+    "slug": "dating-app-mvp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.datingapp.mvp"
+    },
+    "android": {
+      "package": "com.datingapp.mvp"
+    },
+    "scheme": "datingappmvp"
+  }
+}
