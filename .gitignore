@@ -1,49 +1,5 @@
-# Dependencies
+# Dependencies and local env at repo root
 node_modules/
-
-# Environment
+.expo/
 .env
 .env.local
-.env.*.local
-
-# Expo
-.expo/
-dist/
-web-build/
-
-# Backend build
-backend/dist/
-Backend/dist/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# OS
-.DS_Store
-Thumbs.db
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# TypeScript
-*.tsbuildinfo
-
-# Metro
-.metro-health-check*
-
-# Android / iOS (if present)
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-
-# Temporary
-*.log
-.cache/
