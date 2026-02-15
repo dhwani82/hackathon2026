@@ -1,0 +1,7 @@
+/**
+ * Single place for API base URL and app config.
+ * Change BASE_URL for dev/staging/production.
+ */
+export const config = {
+  BASE_URL: process.env.EXPO_PUBLIC_API_URL || 'http://10.166.136.146:8080',
+} as const;
