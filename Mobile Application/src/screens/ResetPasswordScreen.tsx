@@ -5,7 +5,7 @@ import { RouteProp } from '@react-navigation/native';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { authService, getApiErrorMessage } from '../services/auth';
-import type { RootStackParamList } from '../app/AppNavigator';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ResetPassword'>;
@@ -49,13 +49,14 @@ export function ResetPasswordScreen({ navigation, route }: Props) {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
     >
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, styles.scrollCenter]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Reset password</Text>
-        {apiError ? <Text style={styles.apiError}>{apiError}</Text> : null}
-        <Input
+        <View style={styles.centerContent}>
+          <Text style={styles.title}>Reset password</Text>
+          {apiError ? <Text style={styles.apiError}>{apiError}</Text> : null}
+          <Input
           label="Email"
           value={email}
           editable={false}
@@ -85,6 +86,7 @@ export function ResetPasswordScreen({ navigation, route }: Props) {
           variant="outline"
           disabled={loading}
         />
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -93,6 +95,8 @@ export function ResetPasswordScreen({ navigation, route }: Props) {
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: '#f8fafc' },
   scroll: { padding: 24, paddingTop: 48 },
+  scrollCenter: { flexGrow: 1, justifyContent: 'center', alignItems: 'center' },
+  centerContent: { width: '100%', maxWidth: 400 },
   title: { fontSize: 24, fontWeight: '700', marginBottom: 24, color: '#1e293b' },
-  apiError: { color: '#c00', marginBottom: 16, fontSize: 14 },
+  apiError: { color: '#c00', marginBottom: 16, fontSize: 14, textAlign: 'center' },
 });

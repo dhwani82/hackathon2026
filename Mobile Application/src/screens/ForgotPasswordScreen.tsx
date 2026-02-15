@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { authService, getApiErrorMessage } from '../services/auth';
-import type { RootStackParamList } from '../app/AppNavigator';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'ForgotPassword'>;
@@ -36,12 +36,13 @@ export function ForgotPasswordScreen({ navigation }: Props) {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
     >
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, styles.scrollCenter]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Forgot password</Text>
-        <Text style={styles.subtitle}>Enter your email and we’ll send you a code to reset your password.</Text>
+        <View style={styles.centerContent}>
+          <Text style={styles.title}>Forgot password</Text>
+          <Text style={styles.subtitle}>Enter your email and we’ll send you a code to reset your password.</Text>
         {apiError ? <Text style={styles.apiError}>{apiError}</Text> : null}
         <Input
           label="Email"
@@ -58,6 +59,7 @@ export function ForgotPasswordScreen({ navigation }: Props) {
           variant="outline"
           disabled={loading}
         />
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -66,7 +68,9 @@ export function ForgotPasswordScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: '#f8fafc' },
   scroll: { padding: 24, paddingTop: 48 },
+  scrollCenter: { flexGrow: 1, justifyContent: 'center', alignItems: 'center' },
+  centerContent: { width: '100%', maxWidth: 400 },
   title: { fontSize: 24, fontWeight: '700', marginBottom: 8, color: '#1e293b' },
-  subtitle: { fontSize: 15, color: '#64748b', marginBottom: 24 },
-  apiError: { color: '#c00', marginBottom: 16, fontSize: 14 },
+  subtitle: { fontSize: 15, color: '#64748b', marginBottom: 24, textAlign: 'center' },
+  apiError: { color: '#c00', marginBottom: 16, fontSize: 14, textAlign: 'center' },
 });

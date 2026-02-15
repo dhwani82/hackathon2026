@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { tokenStorage } from '../storage/token';
 import { authService } from '../services/auth';
-import type { RootStackParamList } from '../app/AppNavigator';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Splash'>;

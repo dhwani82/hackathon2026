@@ -38,25 +38,28 @@ export function DiscoverScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Discover</Text>
-      <View style={styles.card}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{current?.name?.charAt(0) ?? '?'}</Text>
+      <View style={styles.centerWrap}>
+        <Text style={styles.title}>Discover</Text>
+        <View style={styles.card}>
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>{current?.name?.charAt(0) ?? '?'}</Text>
+          </View>
+          <Text style={styles.name}>{current?.name}, {current?.age}</Text>
+          <Text style={styles.bio}>{current?.bio ?? 'No bio'}</Text>
         </View>
-        <Text style={styles.name}>{current?.name}, {current?.age}</Text>
-        <Text style={styles.bio}>{current?.bio ?? 'No bio'}</Text>
-      </View>
-      <View style={styles.actions}>
-        <Button title="Pass" onPress={handlePass} variant="outline" />
-        <View style={styles.spacer} />
-        <Button title="Like" onPress={handleLike} />
+        <View style={styles.actions}>
+          <Button title="Pass" onPress={handlePass} variant="outline" />
+          <View style={styles.spacer} />
+          <Button title="Like" onPress={handleLike} />
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, backgroundColor: '#f8fafc' },
+  container: { flex: 1, padding: 24, backgroundColor: '#f8fafc', justifyContent: 'center', alignItems: 'center' },
+  centerWrap: { width: '100%', maxWidth: 400, alignItems: 'center' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   title: { fontSize: 24, fontWeight: '700', marginBottom: 20, color: '#1e293b' },
   card: {

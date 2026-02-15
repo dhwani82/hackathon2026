@@ -22,19 +22,22 @@ function MatchRow({ item }: { item: MatchItem }) {
 export function MatchesScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Matches</Text>
-      <FlatList
-        data={MOCK_MATCHES}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <MatchRow item={item} />}
-        ListEmptyComponent={<Text style={styles.empty}>No matches yet.</Text>}
-      />
+      <View style={styles.centerWrap}>
+        <Text style={styles.title}>Matches</Text>
+        <FlatList
+          data={MOCK_MATCHES}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <MatchRow item={item} />}
+          ListEmptyComponent={<Text style={styles.empty}>No matches yet.</Text>}
+        />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, backgroundColor: '#f8fafc' },
+  container: { flex: 1, padding: 24, backgroundColor: '#f8fafc', justifyContent: 'center', alignItems: 'center' },
+  centerWrap: { width: '100%', maxWidth: 400 },
   title: { fontSize: 24, fontWeight: '700', marginBottom: 20, color: '#1e293b' },
   row: {
     flexDirection: 'row',

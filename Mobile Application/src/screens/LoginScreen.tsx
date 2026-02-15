@@ -4,7 +4,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { authService, getApiErrorMessage } from '../services/auth';
-import type { RootStackParamList } from '../app/AppNavigator';
+import { config } from '../config';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Login'>;
@@ -37,13 +38,15 @@ export function LoginScreen({ navigation }: Props) {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
     >
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, styles.scrollCenter]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Welcome back</Text>
-        {apiError ? <Text style={styles.apiError}>{apiError}</Text> : null}
-        <Input
+        <View style={styles.centerContent}>
+          <Text style={styles.title}>Welcome back</Text>
+          <Text style={styles.apiUrlHint}>API: {config.BASE_URL}</Text>
+          {apiError ? <Text style={styles.apiError}>{apiError}</Text> : null}
+          <Input
           label="Email"
           value={email}
           onChangeText={setEmail}
@@ -65,6 +68,7 @@ export function LoginScreen({ navigation }: Props) {
         <TouchableOpacity style={styles.linkWrap} onPress={() => navigation.replace('Register')}>
           <Text style={styles.link}>Create an account</Text>
         </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -73,8 +77,11 @@ export function LoginScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: '#f8fafc' },
   scroll: { padding: 24, paddingTop: 48 },
-  title: { fontSize: 24, fontWeight: '700', marginBottom: 24, color: '#1e293b' },
-  apiError: { color: '#c00', marginBottom: 16, fontSize: 14 },
+  scrollCenter: { flexGrow: 1, justifyContent: 'center', alignItems: 'center' },
+  centerContent: { width: '100%', maxWidth: 400 },
+  title: { fontSize: 24, fontWeight: '700', marginBottom: 8, color: '#1e293b' },
+  apiUrlHint: { fontSize: 11, color: '#94a3b8', marginBottom: 16 },
+  apiError: { color: '#c00', marginBottom: 16, fontSize: 14, textAlign: 'center' },
   linkWrap: { marginTop: 16, alignItems: 'center' },
   link: { color: '#6366f1', fontSize: 15, fontWeight: '500' },
 });

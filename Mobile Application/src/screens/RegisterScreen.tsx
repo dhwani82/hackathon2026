@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
 import { authService, getApiErrorMessage } from '../services/auth';
-import type { RootStackParamList } from '../app/AppNavigator';
+import type { RootStackParamList } from '../navigation/AppNavigator';
 
 type Props = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Register'>;
@@ -51,13 +51,14 @@ export function RegisterScreen({ navigation }: Props) {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 60 : 0}
     >
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, styles.scrollCenter]}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Text style={styles.title}>Create account</Text>
-        {apiError ? <Text style={styles.apiError}>{apiError}</Text> : null}
-        <Input
+        <View style={styles.centerContent}>
+          <Text style={styles.title}>Create account</Text>
+          {apiError ? <Text style={styles.apiError}>{apiError}</Text> : null}
+          <Input
           label="Name"
           value={name}
           onChangeText={setName}
@@ -86,6 +87,7 @@ export function RegisterScreen({ navigation }: Props) {
         <TouchableOpacity style={styles.linkWrap} onPress={() => navigation.replace('Login')}>
           <Text style={styles.link}>Already have an account? Log in</Text>
         </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -94,8 +96,10 @@ export function RegisterScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   flex: { flex: 1, backgroundColor: '#f8fafc' },
   scroll: { padding: 24, paddingTop: 48 },
+  scrollCenter: { flexGrow: 1, justifyContent: 'center', alignItems: 'center' },
+  centerContent: { width: '100%', maxWidth: 400 },
   title: { fontSize: 24, fontWeight: '700', marginBottom: 24, color: '#1e293b' },
-  apiError: { color: '#c00', marginBottom: 16, fontSize: 14 },
+  apiError: { color: '#c00', marginBottom: 16, fontSize: 14, textAlign: 'center' },
   linkWrap: { marginTop: 20, alignItems: 'center' },
   link: { color: '#6366f1', fontSize: 15, fontWeight: '500' },
 });

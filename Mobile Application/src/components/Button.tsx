@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, ViewStyle } from 'react-native';
 
 interface ButtonProps {
   title: string;
@@ -7,15 +7,17 @@ interface ButtonProps {
   loading?: boolean;
   variant?: 'primary' | 'secondary' | 'outline';
   disabled?: boolean;
+  style?: ViewStyle;
 }
 
-export function Button({ title, onPress, loading, variant = 'primary', disabled }: ButtonProps) {
+export function Button({ title, onPress, loading, variant = 'primary', disabled, style }: ButtonProps) {
   return (
     <TouchableOpacity
       style={[
         styles.button,
         styles[variant],
         (loading || disabled) && styles.disabled,
+        style,
       ]}
       onPress={onPress}
       disabled={loading || disabled}
