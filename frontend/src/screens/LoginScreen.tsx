@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Input } from '../components/Input';
 import { Button } from '../components/Button';
@@ -23,7 +24,25 @@ export function LoginScreen({ navigation }: Props) {
     setApiError('');
     try {
       await authService.login({ email: email.trim(), password });
-      navigation.replace('MainTabs');
+      // Flow: Splash → Login → Feed (MainTabs with Feed tab)
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'MainTabs',
+              state: {
+                routes: [
+                  { name: 'Feed' },
+                  { name: 'CreatePost' },
+                  { name: 'Profile' },
+                ],
+                index: 0,
+              },
+            },
+          ],
+        })
+      );
     } catch (err) {
       setApiError(getApiErrorMessage(err));
     } finally {

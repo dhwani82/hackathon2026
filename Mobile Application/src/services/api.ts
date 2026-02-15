@@ -29,6 +29,9 @@ api.interceptors.response.use(
       err.response?.data?.error ||
       err.message ||
       'Something went wrong. Please try again.';
+    if (err.response?.status === 401 && err.config?.url?.includes('/ai/')) {
+      message = 'Please log in again to use the chat. If you used demo login offline, try again with the backend running.';
+    }
     if (err.code === 'ECONNABORTED' || err.message?.toLowerCase().includes('timeout')) {
       const isAiRequest = err.config?.url?.includes('/ai/') || err.config?.url?.includes('/gemini');
       message = isAiRequest

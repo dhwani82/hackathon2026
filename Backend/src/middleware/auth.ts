@@ -21,11 +21,17 @@ export async function requireAuth(
   }
   const token = authHeader.slice(7);
   try {
+    // TEMPORARY: app-side demo bypass token (user logged in offline)
+    if (token === 'demo-bypass-token') {
+      req.user = { _id: 'demo-user', name: 'Dhwani', email: 'dhwani@gmail.com' } as unknown as IUser;
+      next();
+      return;
+    }
     const secret = JWT_SECRET || 'demo-secret-change-in-production';
     const decoded = jwt.verify(token, secret) as { userId: string };
     // TEMPORARY: demo user (no DB lookup)
     if (decoded.userId === 'demo-user') {
-      req.user = { _id: 'demo-user', name: 'Dhwani', email: 'dhwani@gmail.com' } as IUser;
+      req.user = { _id: 'demo-user', name: 'Dhwani', email: 'dhwani@gmail.com' } as unknown as IUser;
       next();
       return;
     }

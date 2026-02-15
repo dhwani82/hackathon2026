@@ -24,6 +24,8 @@ export function ProfileScreen({ navigation }: Props) {
   const [profileEditMode, setProfileEditMode] = useState(false);
   const [draftUsername, setDraftUsername] = useState('');
   const [draftTagline, setDraftTagline] = useState('');
+  const [readyToDate, setReadyToDate] = useState(false);
+  const [draftReadyToDate, setDraftReadyToDate] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const menuSlideAnim = useRef(new Animated.Value(300)).current;
 
@@ -94,12 +96,14 @@ export function ProfileScreen({ navigation }: Props) {
   function startProfileEdit() {
     setDraftUsername(profileDisplayName);
     setDraftTagline(tagline);
+    setDraftReadyToDate(readyToDate);
     setProfileEditMode(true);
   }
 
   function updateProfile() {
     setProfileDisplayName(draftUsername.trim() || profileDisplayName);
     setTagline(draftTagline.trim());
+    setReadyToDate(draftReadyToDate);
     setProfileEditMode(false);
   }
 
@@ -139,6 +143,25 @@ export function ProfileScreen({ navigation }: Props) {
     await handleLogout();
   }
 
+  function handleExplorePress() {
+    const stack = navigation.getParent() as any;
+    if (stack?.navigate) {
+      stack.navigate({
+        name: 'ConnectionsProfile',
+        params: { lookingFor: '', gender: '', pronouns: '' },
+        state: {
+          routes: [
+            { name: 'Explore' },
+            { name: 'Chat' },
+            { name: 'Quizzes' },
+            { name: 'Profile', params: { lookingFor: '', gender: '', pronouns: '' } },
+          ],
+          index: 0,
+        },
+      });
+    }
+  }
+
   if (loadingUser) {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
@@ -152,7 +175,14 @@ export function ProfileScreen({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.headerRow}>
-        <Text style={styles.title}>Profile</Text>
+        <TouchableOpacity
+          onPress={handleExplorePress}
+          style={styles.exploreIconBtn}
+          hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+        >
+          <Ionicons name="compass-outline" size={24} color="#1e293b" />
+        </TouchableOpacity>
+        <Text style={styles.title}>Cuepid Socials Profile</Text>
         <TouchableOpacity
           onPress={() => setMenuVisible(true)}
           style={styles.settingsIconBtn}
@@ -166,6 +196,11 @@ export function ProfileScreen({ navigation }: Props) {
 
       {/* Container 1: Profile — avatar + top-right Edit, username & tagline */}
       <View style={styles.profileCard}>
+        {readyToDate ? (
+          <View style={styles.readyToDateHeartWrap}>
+            <Ionicons name="heart" size={24} color="#ec4899" />
+          </View>
+        ) : null}
         <View style={styles.profileRow}>
           <View style={styles.avatarWrap}>
             <View style={styles.avatarCircle}>
@@ -215,6 +250,13 @@ export function ProfileScreen({ navigation }: Props) {
                   multiline
                   maxLength={120}
                 />
+                <TouchableOpacity
+                  style={[styles.readyToDateBtn, draftReadyToDate && styles.readyToDateBtnActive]}
+                  onPress={() => setDraftReadyToDate(!draftReadyToDate)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.readyToDateBtnText}>Ready to date</Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.updateBtn}
                   onPress={updateProfile}
@@ -269,6 +311,18 @@ export function ProfileScreen({ navigation }: Props) {
           <Text style={styles.emptyReposts}>No reposts yet. Repost from the Feed to see them here.</Text>
         )}
       </View>
+
+      <View style={styles.card}>
+        <Text style={styles.cardTitle}>Ready to make connections with people?</Text>
+        <TouchableOpacity
+          style={styles.connectionsCta}
+          onPress={() => (navigation.getParent() as any)?.navigate?.('ConnectionsOnboarding')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.connectionsCtaText}>Yes, take me there</Text>
+          <Ionicons name="arrow-forward" size={20} color="#6366f1" />
+        </TouchableOpacity>
+      </View>
       </View>
       </ScrollView>
 
@@ -301,14 +355,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 24,
+    paddingHorizontal: 16,
     paddingVertical: 12,
     paddingTop: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#e2e8f0',
     backgroundColor: '#fff',
   },
-  title: { fontSize: 24, fontWeight: '700', color: '#1e293b' },
+  exploreIconBtn: { padding: 4, marginRight: 4 },
+  title: { flex: 1, fontSize: 20, fontWeight: '700', color: '#1e293b', textAlign: 'center' },
   settingsIconBtn: { padding: 4 },
   scrollView: { flex: 1 },
   scrollContent: { padding: 24, paddingBottom: 48 },
@@ -341,7 +396,6 @@ const styles = StyleSheet.create({
   menuItemTextLogout: { fontSize: 16, color: '#dc2626', fontWeight: '600' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   loadingText: { fontSize: 16, color: '#64748b' },
-  title: { fontSize: 24, fontWeight: '700', marginBottom: 20, color: '#1e293b' },
   profileCard: {
     backgroundColor: '#fff',
     borderRadius: 16,
@@ -352,6 +406,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     shadowRadius: 8,
     elevation: 3,
+    position: 'relative',
+  },
+  readyToDateHeartWrap: {
+    position: 'absolute',
+    top: -12,
+    right: -12,
+    zIndex: 1,
+  },
+  readyToDateBtn: {
+    alignSelf: 'flex-start',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 10,
+    backgroundColor: '#fce7f3',
+    marginBottom: 10,
+  },
+  readyToDateBtnActive: {
+    backgroundColor: '#fbcfe8',
+    borderWidth: 1,
+    borderColor: '#ec4899',
+  },
+  readyToDateBtnText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#be185d',
   },
   profileRow: { flexDirection: 'row', alignItems: 'center' },
   avatarWrap: { position: 'relative', marginRight: 16 },
@@ -426,6 +505,15 @@ const styles = StyleSheet.create({
   },
   cardTitle: { fontSize: 18, fontWeight: '600', color: '#1e293b', marginBottom: 12 },
   emptyReposts: { fontSize: 14, color: '#64748b', fontStyle: 'italic', paddingVertical: 8 },
+  connectionsCta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    paddingHorizontal: 4,
+    gap: 8,
+  },
+  connectionsCtaText: { fontSize: 16, fontWeight: '600', color: '#6366f1' },
   repostCard: {
     backgroundColor: '#fff',
     borderRadius: 16,

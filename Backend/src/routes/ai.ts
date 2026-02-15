@@ -67,7 +67,13 @@ router.post('/gemini', requireAuth, async (req: AuthRequest, res: Response): Pro
     res.json({ success: true, text });
   } catch (e) {
     const message = e instanceof Error ? e.message : 'AI request failed';
-    res.status(500).json({ success: false, error: message });
+    const isConfigError = message.toLowerCase().includes('gemini_api_key') || message.toLowerCase().includes('not configured');
+    res.status(isConfigError ? 503 : 500).json({
+      success: false,
+      error: isConfigError
+        ? 'Chat AI is not configured on the server. Add GEMINI_API_KEY to Backend .env'
+        : message,
+    });
   }
 });
 
