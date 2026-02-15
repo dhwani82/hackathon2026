@@ -1,0 +1,26 @@
+TO REMOVE THE SECOND "MOBILE APPLICATION" FOLDER
+=================================================
+
+You see "Mobile Application" twice because the app folder is also named "Mobile Application". Rename it to "Frontend" once:
+
+METHOD 1 – File Explorer (most reliable)
+----------------------------------------
+1. Close Cursor completely (File → Exit).
+2. Stop Expo if it’s running (Ctrl+C in the terminal).
+3. Open File Explorer and go to:
+   d:\MSCS\Hackathon\Mobile Application
+4. You’ll see a folder named "Mobile Application" (the inner one).
+5. Right-click it → Rename → type: Frontend → Enter.
+6. Reopen Cursor on: d:\MSCS\Hackathon\Mobile Application
+7. From repo root run: npm run start
+
+After this you’ll only see: Backend, Frontend, and the other files (no second "Mobile Application").
+
+
+METHOD 2 – Script (after closing Cursor and stopping Expo)
+-----------------------------------------------------------
+1. Close Cursor and stop Expo.
+2. Open PowerShell, run:
+   cd "d:\MSCS\Hackathon\Mobile Application"
+   .\rename-to-frontend.ps1"
+3. Reopen Cursor and run: npm run start

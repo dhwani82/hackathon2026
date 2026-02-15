@@ -5,14 +5,14 @@
 ```
 Mobile Application/              ← repo root (you are here)
 ├── Backend/                     ← Node/Express API (auth, AI, etc.)
-├── Mobile Application/         ← Expo app (screens, feed, profile – all in src/)
+├── Frontend/                    ← Expo app (screens, feed, profile – all in src/)
 ├── package.json                 ← root scripts: start app, run backend
 ├── App.tsx                      ← minimal root entry (do not run Expo from here)
 └── README.md                    ← this file
 ```
 
 - **Backend** = API only. Run with `npm run dev` from root.
-- **Mobile Application** (the inner folder) = the Expo app. Run with `npm run start` from root.
+- **Frontend** = the Expo app. Run with `npm run start` from root.
 
 ## Commands (from repo root)
 
@@ -23,8 +23,16 @@ Mobile Application/              ← repo root (you are here)
 | `npm run ios` | Start Expo for iOS |
 | `npm run android` | Start Expo for Android |
 
-See **Mobile Application/RUN_APP.md** for how to run the app correctly and avoid duplicate-React issues.
+See **Frontend/RUN_APP.md** for how to run the app correctly and avoid duplicate-React issues.
 
-### If you see two app folders (e.g. "Mobile Application" and "frontend")
+### One-time: remove the duplicate "Mobile Application" folder
 
-They point to the same files. To remove the duplicate **frontend** entry: stop Expo (Ctrl+C), then in PowerShell from repo root run `Remove-Item frontend -Force`. Use only the **Mobile Application** (inner) folder; scripts already use it.
+If you still see **Mobile Application** twice (root + inner folder), rename the inner one to **Frontend**:
+
+1. **Close Cursor** completely (File → Exit).
+2. **Stop Expo** (Ctrl+C in the terminal).
+3. Open **File Explorer** → go to `d:\MSCS\Hackathon\Mobile Application`.
+4. **Right-click** the inner folder named **Mobile Application** → **Rename** → type **Frontend** → Enter.
+5. Reopen Cursor and run `npm run start` from repo root.
+
+After that you’ll have: **Backend**, **Frontend**, and supporting files only. See **RENAME_INSTRUCTIONS.txt** for more detail.

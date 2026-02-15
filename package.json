@@ -2,9 +2,9 @@
   "name": "hackathon2026",
   "private": true,
   "scripts": {
-    "start": "cd \"Mobile Application\" && npx expo start --clear",
+    "start": "cd Frontend && npx expo start --clear",
     "dev": "cd Backend && npm run dev",
-    "ios": "cd \"Mobile Application\" && npx expo start --ios",
-    "android": "cd \"Mobile Application\" && npx expo start --android"
+    "ios": "cd Frontend && npx expo start --ios",
+    "android": "cd Frontend && npx expo start --android"
   }
 }
